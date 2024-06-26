@@ -11,7 +11,7 @@ android {
         minSdk = 21
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourcePrefix = "scaffold_"
-        buildConfigField("String", "AgentWebVersionName", "\"3.0.7\"")
+        buildConfigField("String", "AgentWebVersionName", "\"3.1.0\"")
         consumerProguardFiles("consumer-rules.pro")
     }
     buildTypes {
@@ -48,14 +48,14 @@ android {
 
 dependencies {
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    compileOnly("com.google.android.material:material:1.10.0")
-    implementation("top.xuqingquan:utils:3.1.8")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    compileOnly("com.google.android.material:material:1.12.0")
+    implementation("top.xuqingquan:utils:3.2.2")
     //download（需要用到web下载的时候需要依赖）
     compileOnly("com.github.Justson:Downloader:v5.0.4-androidx")
     compileOnly("com.tencent.tbs:tbssdk:44286")
     compileOnly("com.tencent.sonic:sdk:3.1.0")
-    compileOnly("com.alipay.sdk:alipaysdk-android:15.8.16")
+    compileOnly("com.alipay.sdk:alipaysdk-android:15.8.17")
     //test
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -70,7 +70,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "top.xuqingquan"
                 artifactId = "web"
-                version = "3.0.8"
+                version = "3.1.0"
             }
         }
     }
