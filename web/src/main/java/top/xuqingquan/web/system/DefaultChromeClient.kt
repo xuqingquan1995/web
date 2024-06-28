@@ -3,9 +3,15 @@ package top.xuqingquan.web.system
 import android.app.Activity
 import android.net.Uri
 import android.os.Build
-import androidx.annotation.RequiresApi
 import android.view.View
-import android.webkit.*
+import android.webkit.ConsoleMessage
+import android.webkit.GeolocationPermissions
+import android.webkit.JsPromptResult
+import android.webkit.JsResult
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
+import android.webkit.WebStorage
+import android.webkit.WebView
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.getDeniedPermissions
 import top.xuqingquan.utils.hasPermission

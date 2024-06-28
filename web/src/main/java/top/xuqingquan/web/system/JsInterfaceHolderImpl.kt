@@ -8,7 +8,7 @@ import top.xuqingquan.web.nokernel.JsInterfaceObjectException
 /**
  * Created by 许清泉 on 12/21/20 11:19 PM
  */
-class JsInterfaceHolderImpl private constructor(private val webCreator: WebCreator<*>) :
+class JsInterfaceHolderImpl private constructor(webCreator: WebCreator<*>) :
     JsBaseInterfaceHolder(webCreator) {
 
     private val mWebView = webCreator.getWebView()

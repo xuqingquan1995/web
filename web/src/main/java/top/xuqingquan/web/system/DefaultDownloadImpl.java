@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -21,24 +20,17 @@ import com.download.library.ResourceRequest;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import top.xuqingquan.utils.FileUtils;
+import top.xuqingquan.utils.NetUtils;
+import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.R;
-import top.xuqingquan.web.nokernel.Action;
-import top.xuqingquan.web.nokernel.ActionActivity;
-import top.xuqingquan.web.nokernel.AgentWebPermissions;
 import top.xuqingquan.web.nokernel.PermissionInterceptor;
 import top.xuqingquan.web.nokernel.WebUtils;
 import top.xuqingquan.web.publics.AbsAgentWebUIController;
 import top.xuqingquan.web.publics.AgentWebConfig;
 import top.xuqingquan.web.publics.AgentWebUtils;
-import top.xuqingquan.utils.FileUtils;
-import top.xuqingquan.utils.Timber;
-import top.xuqingquan.utils.NetUtils;
-import top.xuqingquan.utils.PermissionUtils;
 
 /**
  * Created by 许清泉 on 2019-06-19 23:29
@@ -97,7 +89,7 @@ public final class DefaultDownloadImpl implements DownloadListener {
             return;
         }
         if (null != this.mPermissionListener) {
-            if (this.mPermissionListener.intercept(url, AgentWebPermissions.STORAGE, "download")) {
+            if (this.mPermissionListener.intercept(url, new String[]{}, "download")) {
                 return;
             }
         }
@@ -114,18 +106,7 @@ public final class DefaultDownloadImpl implements DownloadListener {
             return;
         }
         this.mDownloadTasks.put(url, resourceRequest);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            List<String> mList = checkNeedPermission();
-            if (mList.isEmpty()) {
-                preDownload(url);
-            } else {
-                Action mAction = Action.createPermissionsAction(mList);
-                ActionActivity.setPermissionListener(getPermissionListener(url));
-                ActionActivity.start(mActivityWeakReference.get(), mAction);
-            }
-        } else {
-            preDownload(url);
-        }
+        preDownload(url);
     }
 
     @Nullable
@@ -167,33 +148,6 @@ public final class DefaultDownloadImpl implements DownloadListener {
             fileName = url;
         }
         return fileName;
-    }
-
-    private ActionActivity.PermissionListener getPermissionListener(final String url) {
-        return (permissions, grantResults, extras) -> {
-            if (checkNeedPermission().isEmpty()) {
-                preDownload(url);
-            } else {
-                if (null != mAgentWebUIController.get()) {
-                    mAgentWebUIController
-                            .get()
-                            .onPermissionsDeny(
-                                    checkNeedPermission().
-                                            toArray(new String[]{}),
-                                    AgentWebPermissions.ACTION_STORAGE, "Download");
-                }
-                Timber.e("储存权限获取失败~");
-            }
-
-        };
-    }
-
-    private List<String> checkNeedPermission() {
-        List<String> deniedPermissions = new ArrayList<>();
-        if (!PermissionUtils.hasPermission(mActivityWeakReference.get(), AgentWebPermissions.STORAGE)) {
-            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
-        }
-        return deniedPermissions;
     }
 
     private void preDownload(String url) {

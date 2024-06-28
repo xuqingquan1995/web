@@ -53,7 +53,7 @@ public final class Action implements Parcelable {
         return 0;
     }
 
-    public static final Creator<Action> CREATOR = new Creator<Action>() {
+    public static final Creator<Action> CREATOR = new Creator<>() {
         @Override
         public Action createFromParcel(Parcel in) {
             return new Action(in);

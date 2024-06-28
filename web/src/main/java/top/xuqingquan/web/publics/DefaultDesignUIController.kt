@@ -18,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.R
-import top.xuqingquan.web.nokernel.WebConfig
 
 class DefaultDesignUIController : DefaultUIController() {
 

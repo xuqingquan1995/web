@@ -4,7 +4,6 @@ import android.app.Activity
 import android.webkit.JavascriptInterface
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.web.AgentWeb
-import top.xuqingquan.web.nokernel.WebConfig
 import java.lang.ref.WeakReference
 
 class AgentWebJsInterfaceCompat(agentWeb: AgentWeb, activity: Activity) {

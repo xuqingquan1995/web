@@ -105,8 +105,7 @@ public final class DefaultWebCreator implements WebCreator {
             if (!context.getApplicationContext().getPackageName().equals(processName)) {
                 try {
                     WebView.setDataDirectorySuffix(processName);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+                } catch (Throwable ignored) {
                 }
             }
         }

@@ -22,7 +22,6 @@ import java.util.Map;
 import top.xuqingquan.utils.Timber;
 import top.xuqingquan.web.nokernel.BaseIndicatorView;
 import top.xuqingquan.web.nokernel.EventInterceptor;
-import top.xuqingquan.web.nokernel.HookManager;
 import top.xuqingquan.web.nokernel.HttpHeaders;
 import top.xuqingquan.web.nokernel.IEventHandler;
 import top.xuqingquan.web.nokernel.IUrlLoader;
@@ -538,7 +537,7 @@ public final class AgentWeb {
             if (mTag == AgentWeb.FRAGMENT_TAG && this.mViewGroup == null) {
                 throw new NullPointerException("ViewGroup is null,Please check your parameters .");
             }
-            return new PreAgentWeb(HookManager.hookAgentWeb(new AgentWeb(this)));
+            return new PreAgentWeb(new AgentWeb(this));
         }
 
         private void addJavaObject(String key, Object o) {

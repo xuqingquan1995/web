@@ -1,9 +1,12 @@
 package top.xuqingquan.web.system
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.view.View
-import android.webkit.*
+import android.webkit.DownloadListener
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.networkIsConnect
 import top.xuqingquan.web.AgentWeb

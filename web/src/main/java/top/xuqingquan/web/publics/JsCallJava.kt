@@ -14,7 +14,8 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
     private var mMethodsMap: HashMap<String, Method>? = null
     private var mInterfaceObj: Any? = null
     private var mInterfacedName: String? = null
-    private var preloadInterfaceJs: String? = null
+    var preloadInterfaceJs: String? = null
+        private set
 
     init {
         try {
@@ -67,22 +68,25 @@ class JsCallJava(interfaceObj: Any, interfaceName: String) {
             }
         }
         for (cls in argsTypes) {
-            if (cls == String::class.java) {
-                sign.append("_S")
-            } else if (cls == Int::class.javaPrimitiveType ||
-                cls == Long::class.javaPrimitiveType ||
-                cls == Float::class.javaPrimitiveType ||
-                cls == Double::class.javaPrimitiveType
-            ) {
-                sign.append("_N")
-            } else if (cls == Boolean::class.javaPrimitiveType) {
-                sign.append("_B")
-            } else if (cls == JSONObject::class.java) {
-                sign.append("_O")
-            } else if (cls == JsCallback::class.java) {
-                sign.append("_F")
-            } else {
-                sign.append("_P")
+            when (cls) {
+                String::class.java -> {
+                    sign.append("_S")
+                }
+                Int::class.javaPrimitiveType, Long::class.javaPrimitiveType, Float::class.javaPrimitiveType, Double::class.javaPrimitiveType -> {
+                    sign.append("_N")
+                }
+                Boolean::class.javaPrimitiveType -> {
+                    sign.append("_B")
+                }
+                JSONObject::class.java -> {
+                    sign.append("_O")
+                }
+                JsCallback::class.java -> {
+                    sign.append("_F")
+                }
+                else -> {
+                    sign.append("_P")
+                }
             }
         }
         return sign.toString()

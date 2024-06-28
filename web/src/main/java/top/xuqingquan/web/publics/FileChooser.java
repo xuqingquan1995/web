@@ -61,11 +61,11 @@ final class FileChooser {
     /**
      * ValueCallback
      */
-    private android.webkit.ValueCallback<Uri> sysUriValueCallback;
+    private final android.webkit.ValueCallback<Uri> sysUriValueCallback;
     /**
      * ValueCallback<Uri[]> After LOLLIPOP
      */
-    private android.webkit.ValueCallback<Uri[]> sysUriValueCallbacks;
+    private final android.webkit.ValueCallback<Uri[]> sysUriValueCallbacks;
 
     /**
      * Activity Request Code
@@ -78,7 +78,7 @@ final class FileChooser {
     /**
      * android.webkit.WebChromeClient.FileChooserParams 封装了 Intent ，mAcceptType  等参数
      */
-    private android.webkit.WebChromeClient.FileChooserParams sysFileChooserParams;
+    private final android.webkit.WebChromeClient.FileChooserParams sysFileChooserParams;
 
     /**
      * 如果是通过 JavaScript 打开文件选择器 ，那么 mJsChannelCallback 不能为空
@@ -95,7 +95,7 @@ final class FileChooser {
     /**
      * 当前 android.webkit.WebView
      */
-    private android.webkit.WebView sysWebView;
+    private final android.webkit.WebView sysWebView;
 
     /**
      * 是否为 Camera State
@@ -153,17 +153,17 @@ final class FileChooser {
     }
 
     private void fileChooser() {
-        if (getDeniedPermissions(mActivity, AgentWebPermissions.STORAGE).isEmpty()) {
-            touchOffFileChooserAction();
+        if (getDeniedPermissions(mActivity, AgentWebPermissions.MEDIA).isEmpty()) {
+            chooserAction();
         } else {
-            Action mAction = Action.createPermissionsAction(Arrays.asList(AgentWebPermissions.STORAGE));
+            Action mAction = Action.createPermissionsAction(Arrays.asList(AgentWebPermissions.MEDIA));
             mAction.setFromIntention(FROM_INTENTION_CODE >> 2);
             ActionActivity.setPermissionListener(mPermissionListener);
             ActionActivity.start(mActivity, mAction);
         }
     }
 
-    private void touchOffFileChooserAction() {
+    private void chooserAction() {
         Action mAction = new Action();
         mAction.setAction(Action.ACTION_FILE);
         ActionActivity.setChooserListener(getChooserListener());
@@ -221,12 +221,12 @@ final class FileChooser {
                 }
             }
             if (!needCamera && !needVideo) {
-                touchOffFileChooserAction();
+                chooserAction();
                 return;
             }
         }
         if (!TextUtils.isEmpty(this.mAcceptType) && !this.mAcceptType.contains("*/") && !this.mAcceptType.contains("image/")) {
-            touchOffFileChooserAction();
+            chooserAction();
             return;
         }
         Timber.i("controller:" + this.mAgentWebUIController.get() + "   mAcceptType:" + mAcceptType);
@@ -296,8 +296,8 @@ final class FileChooser {
         if (!hasPermission(mActivity, AgentWebPermissions.CAMERA)) {
             deniedPermissions.add(AgentWebPermissions.CAMERA[0]);
         }
-        if (!hasPermission(mActivity, AgentWebPermissions.STORAGE)) {
-            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.STORAGE));
+        if (!hasPermission(mActivity, AgentWebPermissions.MEDIA)) {
+            deniedPermissions.addAll(Arrays.asList(AgentWebPermissions.MEDIA));
         }
         return deniedPermissions;
     }
@@ -321,15 +321,15 @@ final class FileChooser {
     private void permissionResult(boolean grant, int from_intention) {
         if (from_intention == FROM_INTENTION_CODE >> 2) {
             if (grant) {
-                touchOffFileChooserAction();
+                chooserAction();
             } else {
                 cancel();
                 if (null != mAgentWebUIController.get()) {
                     mAgentWebUIController
                             .get()
                             .onPermissionsDeny(
-                                    AgentWebPermissions.STORAGE,
-                                    AgentWebPermissions.ACTION_STORAGE,
+                                    AgentWebPermissions.MEDIA,
+                                    AgentWebPermissions.ACTION_MEDIA,
                                     "Open file chooser");
                 }
                 Timber.i("permission denied");
@@ -457,7 +457,7 @@ final class FileChooser {
             mJsChannelCallback.call(null);
             return;
         }
-        int sum = 0;
+        long sum = 0;
         for (String path : paths) {
             if (TextUtils.isEmpty(path)) {
                 continue;
@@ -499,8 +499,7 @@ final class FileChooser {
         String[] paths = null;
         try {
             paths = FileUtils.uriToPath(mActivity, datas);
-        } catch (Throwable t) {
-            t.printStackTrace();
+        } catch (Throwable ignored) {
         }
         if (sysUriValueCallbacks == null) {
             return;
@@ -657,9 +656,8 @@ final class FileChooser {
                     Timber.i("File no exists");
                 }
 
-            } catch (Throwable e) {
-                Timber.i("throwwable");
-                e.printStackTrace();
+            } catch (Throwable ignored) {
+                Timber.i("throwable");
             } finally {
                 FileUtils.closeIO(is);
                 FileUtils.closeIO(os);
@@ -671,8 +669,7 @@ final class FileChooser {
     }
 
     private static String convertFileParcelObjectsToJson(Collection<FileParcel> collection) {
-
-        if (collection == null || collection.size() == 0) {
+        if (collection == null || collection.isEmpty()) {
             return null;
         }
         Iterator<FileParcel> mFileParcels = collection.iterator();
@@ -712,8 +709,7 @@ final class FileChooser {
                     mJsChannelCallback.get().call(result);
                 }
 
-            } catch (Throwable e) {
-                e.printStackTrace();
+            } catch (Throwable ignored) {
             }
         }
     }

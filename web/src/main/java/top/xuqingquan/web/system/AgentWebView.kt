@@ -12,11 +12,13 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import top.xuqingquan.web.R
 import top.xuqingquan.utils.Timber
+import top.xuqingquan.web.R
+import top.xuqingquan.web.publics.JsCallJava
 
 
 open class AgentWebView : LollipopFixedWebView {
+    private var mIsInited = false
     private val mFixedOnReceivedTitle = FixedOnReceivedTitle()
 
     constructor(context: Context) : super(context)
@@ -27,6 +29,7 @@ open class AgentWebView : LollipopFixedWebView {
 
     init {
         id = R.id.scaffold_webview_id
+        mIsInited = true
     }
 
     override fun setWebChromeClient(client: WebChromeClient?) {
@@ -34,19 +37,35 @@ open class AgentWebView : LollipopFixedWebView {
         mAgentWebChrome.delegate = client
         mFixedOnReceivedTitle.setWebChromeClient(client)
         super.setWebChromeClient(mAgentWebChrome)
+        setWebChromeClientSupport(mAgentWebChrome)
+    }
+
+    protected open fun setWebChromeClientSupport(client: WebChromeClient?) {
     }
 
     override fun setWebViewClient(client: WebViewClient) {
         val mAgentWebClient = AgentWebClient(this)
         mAgentWebClient.delegate = client
         super.setWebViewClient(mAgentWebClient)
+        setWebViewClientSupport(mAgentWebClient)
+    }
+
+    protected open fun setWebViewClientSupport(client: WebViewClient) {
     }
 
     override fun destroy() {
         visibility = View.GONE
         removeAllViewsInLayout()
         fixedStillAttached()
-        super.destroy()
+        if (mIsInited) {
+            super.destroy()
+        }
+    }
+
+    override fun clearHistory() {
+        if (mIsInited){
+            super.clearHistory()
+        }
     }
 
     override fun setOverScrollMode(mode: Int) {

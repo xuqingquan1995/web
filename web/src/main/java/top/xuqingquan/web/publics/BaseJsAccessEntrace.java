@@ -21,7 +21,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
     @Override
     public void callJs(@Nullable String js) {
-        this.callJs(js, (android.webkit.ValueCallback<String>) null);
+        this.callJs(js, null);
     }
 
     private void evaluateJs(@Nullable String js, @Nullable android.webkit.ValueCallback<String> callback) {
@@ -65,7 +65,7 @@ public abstract class BaseJsAccessEntrace implements JsAccessEntrace {
 
     @Override
     public void quickCallJs(@Nullable String method, @Nullable String... params) {
-        this.quickCallJs(method, (android.webkit.ValueCallback<String>) null, params);
+        this.quickCallJs(method, null, params);
     }
 
     @Override

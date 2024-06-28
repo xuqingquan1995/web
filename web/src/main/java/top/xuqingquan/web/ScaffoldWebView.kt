@@ -13,7 +13,6 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import top.xuqingquan.utils.px2dip
 import top.xuqingquan.web.nokernel.PermissionInterceptor
-import top.xuqingquan.web.nokernel.WebConfig
 import top.xuqingquan.web.publics.AgentWebConfig
 
 /**
@@ -34,10 +33,10 @@ class ScaffoldWebView : FrameLayout {
     var indicatorHeight: Int = 0 //进度条高度，高度为2，单位为dp
 
     @LayoutRes
-    var error_layout: Int = -1
+    var errorLayout: Int = -1
 
     @IdRes
-    var refresh_error: Int = -1
+    var refreshError: Int = -1
     var url: String? = "https://m.baidu.com"
     var debug: Boolean = false
         set(value) {
@@ -62,10 +61,10 @@ class ScaffoldWebView : FrameLayout {
             R.styleable.scaffold_ScaffoldWebView_scaffold_indicatorHeight,
             -1f
         ).toInt()
-        error_layout =
+        errorLayout =
             typedArray.getResourceId(R.styleable.scaffold_ScaffoldWebView_scaffold_error_layout, -1)
-        if (error_layout != -1) {
-            refresh_error = typedArray.getResourceId(
+        if (errorLayout != -1) {
+            refreshError = typedArray.getResourceId(
                 R.styleable.scaffold_ScaffoldWebView_scaffold_refresh_error,
                 -1
             )
@@ -97,7 +96,7 @@ class ScaffoldWebView : FrameLayout {
                     LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
                 )//传入AgentWeb的父控件。
                 .useDefaultIndicator(indicatorColor, indicatorHeight)
-                .setMainFrameErrorView(error_layout, refresh_error)//当使用X5时候这一句失效
+                .setMainFrameErrorView(errorLayout, refreshError)//当使用X5时候这一句失效
                 .interceptUnknownUrl() //拦截找不到相关页面的Url AgentWeb 3.0.0 加入。
                 .setPermissionInterceptor(object : PermissionInterceptor {
                     override fun intercept(

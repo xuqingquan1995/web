@@ -15,7 +15,7 @@ import android.webkit.WebStorage
 import android.webkit.WebView
 
 @Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
-open class WebChromeClientDelegate constructor(webChromeClient: WebChromeClient?) :
+open class WebChromeClientDelegate(webChromeClient: WebChromeClient?) :
     WebChromeClient() {
     open var delegate: WebChromeClient? = webChromeClient
 

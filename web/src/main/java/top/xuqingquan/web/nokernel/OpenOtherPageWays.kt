@@ -4,7 +4,7 @@ package top.xuqingquan.web.nokernel
  * Created by 许清泉 on 2019-06-19 00:30
  */
 @Suppress("unused")
-enum class OpenOtherPageWays constructor(var code: Int) {
+enum class OpenOtherPageWays(var code: Int) {
 
     /**
      * 直接打开跳转页

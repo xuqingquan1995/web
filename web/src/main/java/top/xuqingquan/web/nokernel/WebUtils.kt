@@ -1,6 +1,5 @@
 package top.xuqingquan.web.nokernel
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,9 +9,8 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import androidx.core.os.EnvironmentCompat
 import android.text.TextUtils
-import android.widget.Toast
+import androidx.core.os.EnvironmentCompat
 import top.xuqingquan.utils.EncryptUtils
 import top.xuqingquan.utils.Timber
 import top.xuqingquan.utils.ToastUtils
