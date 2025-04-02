@@ -11,7 +11,7 @@ android {
         minSdk = 21
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resourcePrefix = "scaffold_"
-        buildConfigField("String", "AgentWebVersionName", "\"3.1.2_lite\"")
+        buildConfigField("String", "AgentWebVersionName", "\"3.1.3_lite\"")
         consumerProguardFiles("consumer-rules.pro")
     }
     buildTypes {
@@ -50,10 +50,10 @@ dependencies {
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     implementation("androidx.appcompat:appcompat:1.7.0")
     compileOnly("com.google.android.material:material:1.12.0")
-    implementation("top.xuqingquan:utils:3.2.3")
+    implementation("top.xuqingquan:utils:3.2.5")
     //download（需要用到web下载的时候需要依赖）
     compileOnly("com.github.Justson:Downloader:v5.0.4-androidx")
-    compileOnly("com.alipay.sdk:alipaysdk-android:15.8.17")
+    compileOnly("com.alipay.sdk:alipaysdk-android:15.8.33")
     //test
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
@@ -68,7 +68,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "top.xuqingquan"
                 artifactId = "web"
-                version = "3.1.2_lite"
+                version = "3.1.3_lite"
             }
         }
     }
